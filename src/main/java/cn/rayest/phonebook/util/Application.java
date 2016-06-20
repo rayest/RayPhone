@@ -1,7 +1,7 @@
 package cn.rayest.phonebook.util;
 
-import cn.rayest.phonebook.dao.PersonDaoImpl;
-import cn.rayest.phonebook.model.Person;
+import cn.rayest.phonebook.dao.JdbcPersonDao;
+import cn.rayest.phonebook.domain.Person;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Scanner;
  * Created by xubt on 4/23/16.
  */
 public class Application {
-    private static PersonDaoImpl personDaoImpl = new PersonDaoImpl();
+    private static JdbcPersonDao jdbcPersonDao = new JdbcPersonDao();
 
     public static void main(String[] args) throws Exception {
         enterKey();
@@ -47,7 +47,7 @@ public class Application {
                     boolean validPhoneNumberResult = ValidationUtil.phoneNumberIsValid(addPhoneNumber);
                     if (validPhoneNumberResult == true) {
                         newPerson.setPhoneNumber(addPhoneNumber);
-                        personDaoImpl.addPerson(newPerson);
+                        jdbcPersonDao.addPerson(newPerson);
                         System.out.println(newPerson.getName() + " successfully added!\n");
                     } else {
                         System.out.println("Entered a wrong number");
@@ -61,7 +61,7 @@ public class Application {
                 input = new Scanner(System.in);
                 System.out.println("Enter contact's name");
                 String contactName = input.next();
-                Person foundPerson = personDaoImpl.findPersonByName(contactName);
+                Person foundPerson = jdbcPersonDao.findPersonByName(contactName);
                 if (foundPerson.getName() == null) {
                     System.out.println("Contact can not be found\n");
                 } else {
@@ -70,10 +70,10 @@ public class Application {
                 break;
             case 3:
                 input = new Scanner(System.in);
-                System.out.println("Enter contact's name");
-                String deleteName = input.next();
-                personDaoImpl.deletePerson(deleteName);
-                System.out.println(deleteName + " successfully deleted!\n");
+                System.out.println("Enter contact's id");
+                int id = input.nextInt();
+                jdbcPersonDao.deletePerson(id);
+                System.out.println(id + " successfully deleted!\n");
                 break;
             case 4:
                 input = new Scanner(System.in);
@@ -90,7 +90,7 @@ public class Application {
                     boolean validPhoneNumberResult = ValidationUtil.phoneNumberIsValid(addPhoneNumber);
                     if (validPhoneNumberResult == true) {
                         newPerson.setPhoneNumber(addPhoneNumber);
-                        personDaoImpl.editPerson(oldName, newPerson);
+                        jdbcPersonDao.updatePerson(newPerson);
                         System.out.println("successfully edited!\n");
                     } else {
                         System.out.println("Entered a wrong number");
@@ -102,7 +102,7 @@ public class Application {
                 break;
             case 5:
                 List<Person> persons = new ArrayList<Person>();
-                personDaoImpl.loadPersons();
+                jdbcPersonDao.loadPersons();
                 System.out.println("Contacts' Information:");
                 for (Person person : persons) {
                     System.out.println("Name:" + person.getName());

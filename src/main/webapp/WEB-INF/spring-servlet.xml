@@ -13,6 +13,10 @@
     -->
     <mvc:annotation-driven/>
 
+    <mvc:resources mapping="/resources/**" location="/images/"/>
+
+    <mvc:resources mapping="/resources2/**" location="/css/"/>
+
     <!--1.获取数据源，配置BasicDataSource-->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
@@ -28,35 +32,80 @@
     </bean>
 
     <!--3.给PersonDaoImpl注入模板，装配PersonDaoImpl的jdbcTemplate属性-->
-    <bean id="PersonDaoImpl" class="cn.rayest.phonebook.dao.PersonDaoImpl">
+    <bean id="JdbcPersonDao" class="cn.rayest.phonebook.dao.JdbcPersonDao">
         <property name="jdbcTemplate" ref="jdbcTemplate"></property>
     </bean>
 
-    <!--4.给控制器注入Dao类-->
+    <!--给控制器注入Dao类-->
+    <!--1.1. AddController: -->
     <bean id="AddController" class="cn.rayest.phonebook.controller.AddController">
-        <property name="PersonDaoImpl" ref="PersonDaoImpl"></property>
+        <property name="JdbcPersonDao" ref="JdbcPersonDao"></property>
     </bean>
 
-    <!--5.配置映射响应器，映射响应器会根据请求文件来决定进入到哪个控制器，-->
+    <!--1.2. 配置映射响应器，映射响应器会根据请求文件来决定进入到哪个控制器，-->
     <bean id="mapping1" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
                 <!-- 这里的key就是你的action请求，后面是要分派的控制器-->
-                <prop key="add1">AddController</prop>
+                <prop key="add">AddController</prop>
             </props>
         </property>
     </bean>
 
+    <!--2.1. LoadController: -->
     <bean id="LoadController" class="cn.rayest.phonebook.controller.LoadController">
-        <property name="PersonDaoImpl" ref="PersonDaoImpl"></property>
+        <property name="JdbcPersonDao" ref="JdbcPersonDao"></property>
     </bean>
 
-    <!--5.配置映射响应器，映射响应器会根据请求文件来决定进入到哪个控制器，-->
+    <!--2.2. 配置映射响应器，映射响应器会根据请求文件来决定进入到哪个控制器，-->
     <bean id="mapping2" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
                 <!-- 这里的key就是你的action请求，后面是要分派的控制器-->
                 <prop key="load">LoadController</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--3.1. UpdateController: -->
+    <bean id="UpdateController" class="cn.rayest.phonebook.controller.UpdateController">
+        <property name="JdbcPersonDao" ref="JdbcPersonDao"></property>
+    </bean>
+
+    <!--3.2. 配置映射响应器，映射响应器会根据请求文件来决定进入到哪个控制器，-->
+    <bean id="mapping3" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <!-- 这里的key就是你的action请求，后面是要分派的控制器-->
+                <prop key="update">UpdateController</prop>
+            </props>
+        </property>
+    </bean>
+    <!--4.1. DeleteController: -->
+    <bean id="DeleteController" class="cn.rayest.phonebook.controller.DeleteController">
+        <property name="JdbcPersonDao" ref="JdbcPersonDao"></property>
+    </bean>
+
+    <!--4.2. 配置映射响应器，映射响应器会根据请求文件来决定进入到哪个控制器，-->
+    <bean id="mapping4" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <!-- 这里的key就是你的action请求，后面是要分派的控制器-->
+                <prop key="delete">DeleteController</prop>
+            </props>
+        </property>
+    </bean>
+    <!--5.1. FindByNameController: -->
+    <bean id="FindByNameController" class="cn.rayest.phonebook.controller.FindByNameController">
+        <property name="JdbcPersonDao" ref="JdbcPersonDao"></property>
+    </bean>
+
+    <!--5.2. 配置映射响应器，映射响应器会根据请求文件来决定进入到哪个控制器，-->
+    <bean id="mapping5" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <!-- 这里的key就是你的action请求，后面是要分派的控制器-->
+                <prop key="find">FindByNameController</prop>
             </props>
         </property>
     </bean>

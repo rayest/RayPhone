@@ -11,7 +11,7 @@
 <head>
     <title>Title</title>
     <style>
-        th{
+        th {
             text-align: left;
         }
     </style>
@@ -22,9 +22,9 @@
     <table>
         <thead>
         <tr>
-
-            <th>联系人姓名</th>
-            <th>联系人电话</th>
+            <th>标识</th>
+            <th>姓名</th>
+            <th>电话</th>
         </tr>
         </thead>
 
@@ -32,6 +32,7 @@
         <c:forEach items="${person}" var="person">
             <tr>
 
+                <td>${person.id}</td>
                 <td>${person.name}</td>
                 <td>${person.phoneNumber}</td>
             </tr>

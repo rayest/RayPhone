@@ -7,16 +7,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Rayest on 2016/6/19 0019.
+ * Created by Rayest on 2016/6/20 0020.
  */
 
 @Controller
-public class LoadController {
+public class DeleteController {
     private JdbcPersonDao jdbcPersonDao;
 
     public JdbcPersonDao getJdbcPersonDao() {
@@ -27,20 +27,17 @@ public class LoadController {
         this.jdbcPersonDao = jdbcPersonDao;
     }
 
-    @RequestMapping("load")
-    public String load1(HttpServletRequest request, HttpServletResponse response) {
-        return "load";
+    @RequestMapping("delete")
+    public String delete(HttpServletRequest request, HttpServletResponse response) {
+        return "delete";
     }
 
-    @RequestMapping(value = "loaded")
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+    @RequestMapping("deleted")
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws SQLException, ClassNotFoundException {
         Map model = new HashMap();
-        List person = jdbcPersonDao.loadPersons();
+        int id = Integer.parseInt(request.getParameter("id"));
 
-        model.put("person", person);
-        return new ModelAndView("loaded", model);
+        jdbcPersonDao.deletePerson(id);
+        return new ModelAndView("deleted", model);
     }
-
-
 }
