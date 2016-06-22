@@ -47,14 +47,14 @@ public class JdbcPersonDao extends JdbcDaoSupport implements PersonDao {
         return getJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(Person.class), name);
     }
 
-    public void updatePerson(Person person) throws ClassNotFoundException, SQLException {
+    public void updatePerson(int id, Person person) throws ClassNotFoundException, SQLException {
         String sql = "UPDATE persons SET name = ?, phoneNumber = ? WHERE id = ?";
 
         boolean validationPhone = ValidationUtil.phoneNumberIsValid(person.getPhoneNumber());
 
 
         if (validationPhone == true) {
-            getJdbcTemplate().update(sql, person.getId(), person.getName(), person.getPhoneNumber());
+            getJdbcTemplate().update(sql, id, person.getName(), person.getPhoneNumber());
         }
      }
 

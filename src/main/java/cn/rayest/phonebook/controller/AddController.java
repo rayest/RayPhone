@@ -33,7 +33,6 @@ public class AddController {
         return "add";
     }
 
-
     @RequestMapping("added")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 

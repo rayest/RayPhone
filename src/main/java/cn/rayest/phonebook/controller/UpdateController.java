@@ -46,7 +46,7 @@ public class UpdateController {
         person.setName(name);
         person.setPhoneNumber(phoneNumber);
 
-        jdbcPersonDao.updatePerson(person);
+        jdbcPersonDao.updatePerson(id, person);
 
         return "updated";
     }

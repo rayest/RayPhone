@@ -12,6 +12,6 @@ public interface PersonDao {
     void addPerson(Person person) throws Exception;
     List loadPersons() throws SQLException, ClassNotFoundException;
     Person findPersonByName(String name) throws ClassNotFoundException, SQLException;
-    void updatePerson(Person person) throws ClassNotFoundException, SQLException;
+    void updatePerson(int id, Person person) throws ClassNotFoundException, SQLException;
     void deletePerson(int id) throws ClassNotFoundException, SQLException;
 }
